@@ -1,50 +1,21 @@
-Características:
+💡 Ventajas del Patrón Builder
+✅ Encapsulación: Oculta detalles de construcción complejos
 
-Inicialización perezosa (se crea solo cuando se necesita)
+✅ Flexibilidad: Permite diferentes representaciones
 
-Thread-safe con doble verificación
+✅ Legibilidad: Código más claro y expresivo
 
-Sincronización optimizada
+✅ Inmutabilidad: Puede construir objetos inmutables
 
-🎯 Casos de Uso Típicos
-Logging: Sistema centralizado de registro
+✅ Validación: Validación centralizada en el build()
 
-Configuración: Configuración global de la aplicación
+🎯 Cuándo Usar el Patrón Builder
+Cuando un objeto tiene muchos parámetros de construcción
 
-Conexiones: Pool de conexiones a bases de datos
+Cuando algunos parámetros son opcionales
 
-Caché: Almacenamiento en caché compartido
+Cuando necesitas diferentes variaciones de un objeto
 
-Hardware: Acceso a dispositivos hardware únicos
+Cuando quieres crear objetos inmutables
 
-⚠️ Consideraciones y Mejores Prácticas
-Ventajas:
-
-✅ Control estricto sobre la instancia única
-
-✅ Acceso global controlado
-
-✅ Ahorro de recursos al evitar múltiples instancias
-
-Desventajas:
-
-❌ Puede dificultar las pruebas unitarias
-
-❌ Puede crear acoplamiento fuerte
-
-❌ Dificulta la paralelización en tests
-
-Recomendaciones:
-
-Considerar inyección de dependencias para mejor testabilidad
-
-Usar solo cuando realmente se necesita una única instancia
-
-Documentar claramente el porqué del uso del patrón
-
-🔄 Alternativas y Variantes
-Inyección de Dependencias: Mejor para testabilidad
-
-Monostate Pattern: Múltiples instancias con estado compartido
-
-Parameterized Singleton: Singleton con parámetros de configuración
+Cuando la construcción es compleja y requiere validación

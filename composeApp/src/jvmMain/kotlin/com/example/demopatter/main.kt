@@ -1,74 +1,101 @@
 package com.example.demopatter
 import androidx.compose.ui.window.application
 
-import shared.Logger
-import shared.AppConfig
+import shared.Computer
+import shared.ComputerDirector
+import shared.GamingComputerBuilder
+import shared.OfficeComputerBuilder
 
 fun main() = application {
-    println("🔍 Demostración del Patrón Singleton")
-    println("=".repeat(40))
+    println("🎯 Demostración del Patrón Builder")
+    println("=".repeat(50))
 
-    // Demo 1: Logger Singleton
-    demoLoggerSingleton()
+    // Demo 1: Builder básico con método de encadenamiento
+    demoBasicBuilder()
 
-    println("\n" + "=".repeat(40))
+    println("\n" + "=".repeat(50))
 
-    // Demo 2: AppConfig Singleton
-    demoAppConfigSingleton()
+    // Demo 2: Builders especializados
+    demoSpecializedBuilders()
 
-    println("\n" + "=".repeat(40))
+    println("\n" + "=".repeat(50))
 
-    // Demo 3: Verificación de instancia única
-    demoInstanciaUnica()
+    // Demo 3: Usando Director
+    demoWithDirector()
+
+    println("\n" + "=".repeat(50))
+
+    // Demo 4: Construcción personalizada
+    demoCustomBuild()
 }
 
-fun demoLoggerSingleton() {
-    println("📝 Demo Logger Singleton:")
+fun demoBasicBuilder() {
+    println("🔧 Builder Básico:")
 
-    // Usar el logger desde diferentes partes
-    val logger1 = Logger.getInstance()
-    val logger2 = Logger.getInstance()
+    // Construcción paso a paso con encadenamiento
+    val computer = Computer.builder()
+        .setProcessor("AMD Ryzen 5 5600X")
+        .setRamGB(16)
+        .setStorageGB(1000)
+        .setGraphicsCard("NVIDIA GTX 1660")
+        .setHasSSD(true)
+        .setOperatingSystem("Windows 11")
+        .setPrice(900.0)
+        .build()
 
-    logger1.log("Aplicación iniciada")
-    logger2.debug("Modo depuración activado")
-    logger1.error("Error de conexión detectado")
-
-    // Verificar que es la misma instancia
-    println("¿Misma instancia? ${logger1 === logger2}")
+    println(computer.getSpecifications())
 }
 
-fun demoAppConfigSingleton() {
-    println("⚙️ Demo AppConfig Singleton:")
+fun demoSpecializedBuilders() {
+    println("🎮 Builders Especializados:")
 
-    // Configurar la aplicación
-    AppConfig.apiUrl = "https://api.midominio.com/v1"
-    AppConfig.timeout = 5000
-    AppConfig.isDebugMode = true
+    val gamingBuilder = GamingComputerBuilder()
+    val officeBuilder = OfficeComputerBuilder()
 
-    // Acceder desde diferentes partes del código
-    AppConfig.printConfig()
+    val gamingPC = gamingBuilder.midRangeGamingSetup()
+    val officePC = officeBuilder.standardOfficeSetup()
+    val devPC = officeBuilder.developerSetup()
 
-    // Modificar configuración
-    println("\n🔄 Modificando configuración...")
-    AppConfig.timeout = 2000
-    AppConfig.printConfig()
+    println("=== Computadora Gaming ===")
+    println(gamingPC.getSpecifications())
+
+    println("\n=== Computadora Oficina ===")
+    println(officePC.getSpecifications())
+
+    println("\n=== Computadora Desarrollador ===")
+    println(devPC.getSpecifications())
 }
 
-fun demoInstanciaUnica() {
-    println("🔗 Demo Instancia Única:")
+fun demoWithDirector() {
+    println("🎭 Usando Director:")
 
-    // Demostrar que siempre obtenemos la misma instancia
-    val config1 = AppConfig
-    val config2 = AppConfig
-    val logger1 = Logger.getInstance()
-    val logger2 = Logger.getInstance()
+    val director = ComputerDirector()
+    val gamingBuilder = GamingComputerBuilder()
+    val officeBuilder = OfficeComputerBuilder()
 
-    println("AppConfig misma instancia: ${config1 === config2}")
-    println("Logger misma instancia: ${logger1 === logger2}")
+    val highEndGamingPC = director.constructGamingComputer(gamingBuilder)
+    val budgetOfficePC = director.constructBudgetComputer(officeBuilder)
 
-    // Mostrar hashcode para demostrar que es el mismo objeto
-    println("HashCode AppConfig 1: ${System.identityHashCode(config1)}")
-    println("HashCode AppConfig 2: ${System.identityHashCode(config2)}")
-    println("HashCode Logger 1: ${System.identityHashCode(logger1)}")
-    println("HashCode Logger 2: ${System.identityHashCode(logger2)}")
+    println("=== High-End Gaming (via Director) ===")
+    println(highEndGamingPC.getSpecifications())
+
+    println("\n=== Budget Office (via Director) ===")
+    println(budgetOfficePC.getSpecifications())
+}
+
+fun demoCustomBuild() {
+    println("🛠️ Construcción Personalizada:")
+
+    val gamingBuilder = GamingComputerBuilder()
+
+    // Computadora personalizada con parámetros opcionales
+    val customPC = gamingBuilder.customGamingSetup(
+        processor = "Intel i7-13700K",
+        ramGB = 64,
+        storageGB = 4000,
+        graphicsCard = "NVIDIA RTX 4090",
+        price = 3500.0
+    )
+
+    println(customPC.getSpecifications())
 }
