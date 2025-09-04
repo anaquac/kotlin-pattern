@@ -1,74 +1,74 @@
 package com.example.demopatter
 import androidx.compose.ui.window.application
 
-import shared.Logger
-import shared.AppConfig
+import shared.VehicleFactory
+import shared.VehicleType
 
 fun main() = application {
-    println("🔍 Demostración del Patrón Singleton")
-    println("=".repeat(40))
+    println("🚗 Vehicle Factory Demo 🏭")
+    println("=".repeat(30))
 
-    // Demo 1: Logger Singleton
-    demoLoggerSingleton()
+    // Demo básica
+    demoBasicFactory()
 
-    println("\n" + "=".repeat(40))
+    println("\n" + "=".repeat(30))
 
-    // Demo 2: AppConfig Singleton
-    demoAppConfigSingleton()
+    // Demo avanzada
+    demoAdvancedUsage()
 
-    println("\n" + "=".repeat(40))
+    println("\n" + "=".repeat(30))
 
-    // Demo 3: Verificación de instancia única
-    demoInstanciaUnica()
+    // Demo con manejo de errores
+    demoWithErrorHandling()
+
+}
+fun demoBasicFactory() {
+    println("📋 Demo Básica:")
+
+    // Crear diferentes vehículos usando la factory
+    val car = VehicleFactory.createVehicle(VehicleType.CAR)
+    val motorcycle = VehicleFactory.createVehicle(VehicleType.MOTORCYCLE)
+    val truck = VehicleFactory.createVehicle(VehicleType.TRUCK)
+    val electricCar = VehicleFactory.createVehicle(VehicleType.ELECTRIC_CAR)
+
+    // Usar los vehículos
+    val vehicles = listOf(car, motorcycle, truck, electricCar)
+
+    vehicles.forEach { vehicle ->
+        println("\n${vehicle.getInfo()}")
+        vehicle.startEngine()
+        Thread.sleep(500) // Simular delay
+        vehicle.stopEngine()
+    }
 }
 
-fun demoLoggerSingleton() {
-    println("📝 Demo Logger Singleton:")
+fun demoAdvancedUsage() {
+    println("🎯 Demo Avanzada:")
 
-    // Usar el logger desde diferentes partes
-    val logger1 = Logger.getInstance()
-    val logger2 = Logger.getInstance()
+    // Usar la versión con string
+    val car = VehicleFactory.createVehicle("car")
+    val ev = VehicleFactory.createVehicle("EV")
 
-    logger1.log("Aplicación iniciada")
-    logger2.debug("Modo depuración activado")
-    logger1.error("Error de conexión detectado")
+    println("Vehículo creado por string: ${car.getInfo()}")
+    println("Vehículo eléctrico: ${ev.getInfo()}")
 
-    // Verificar que es la misma instancia
-    println("¿Misma instancia? ${logger1 === logger2}")
+    // Mostrar tipos disponibles
+    println("\n📊 Tipos disponibles:")
+    VehicleFactory.getAvailableTypes().forEach { type ->
+        println("- $type")
+    }
 }
 
-fun demoAppConfigSingleton() {
-    println("⚙️ Demo AppConfig Singleton:")
+fun demoWithErrorHandling() {
+    println("⚠️  Demo con Manejo de Errores:")
 
-    // Configurar la aplicación
-    AppConfig.apiUrl = "https://api.midominio.com/v1"
-    AppConfig.timeout = 5000
-    AppConfig.isDebugMode = true
-
-    // Acceder desde diferentes partes del código
-    AppConfig.printConfig()
-
-    // Modificar configuración
-    println("\n🔄 Modificando configuración...")
-    AppConfig.timeout = 2000
-    AppConfig.printConfig()
-}
-
-fun demoInstanciaUnica() {
-    println("🔗 Demo Instancia Única:")
-
-    // Demostrar que siempre obtenemos la misma instancia
-    val config1 = AppConfig
-    val config2 = AppConfig
-    val logger1 = Logger.getInstance()
-    val logger2 = Logger.getInstance()
-
-    println("AppConfig misma instancia: ${config1 === config2}")
-    println("Logger misma instancia: ${logger1 === logger2}")
-
-    // Mostrar hashcode para demostrar que es el mismo objeto
-    println("HashCode AppConfig 1: ${System.identityHashCode(config1)}")
-    println("HashCode AppConfig 2: ${System.identityHashCode(config2)}")
-    println("HashCode Logger 1: ${System.identityHashCode(logger1)}")
-    println("HashCode Logger 2: ${System.identityHashCode(logger2)}")
+    try {
+        val unknownVehicle = VehicleFactory.createVehicle("SPACESHIP")
+        println(unknownVehicle.getInfo())
+    } catch (e: IllegalArgumentException) {
+        println("Error: ${e.message}")
+        println("Usando vehículo por defecto (Car)...")
+        val defaultVehicle = VehicleFactory.createVehicle(VehicleType.CAR)
+        println(defaultVehicle.getInfo())
+    }
 }
