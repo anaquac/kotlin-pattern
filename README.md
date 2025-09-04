@@ -1,21 +1,18 @@
-💡 Ventajas del Patrón Builder
-✅ Encapsulación: Oculta detalles de construcción complejos
+¿Qué es el Patrón Strategy?
+Problema que resuelve:
 
-✅ Flexibilidad: Permite diferentes representaciones
+Tienes múltiples algoritmos para una misma tarea
 
-✅ Legibilidad: Código más claro y expresivo
+Quieres poder cambiar el algoritmo en tiempo de ejecución
 
-✅ Inmutabilidad: Puede construir objetos inmutables
+Necesitas evitar condicionales complejos (if/else o switch)
 
-✅ Validación: Validación centralizada en el build()
+Quieres seguir el principio Open/Closed
 
-🎯 Cuándo Usar el Patrón Builder
-Cuando un objeto tiene muchos parámetros de construcción
+Solución:
 
-Cuando algunos parámetros son opcionales
+Definir una interfaz común para todos los algoritmos
 
-Cuando necesitas diferentes variaciones de un objeto
+Implementar cada algoritmo en una clase separada
 
-Cuando quieres crear objetos inmutables
-
-Cuando la construcción es compleja y requiere validación
+Permitir que el cliente elija el algoritmo a usar
