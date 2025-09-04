@@ -19,3 +19,22 @@ Cuando necesitas diferentes variaciones de un objeto
 Cuando quieres crear objetos inmutables
 
 Cuando la construcción es compleja y requiere validación
+
+
+✅ ¿Cuándo Usar Este Patrón?
+✅ Objetos con muchos parámetros (más de 4-5)
+
+✅ Parámetros opcionales con valores por defecto
+
+✅ Validaciones complejas durante la construcción
+
+✅ Inmutabilidad deseada en el objeto final
+
+✅ Fluent interface para mejor legibilidad
+
+❌ ¿Cuándo Evitarlo?
+❌ Objetos simples con pocos parámetros
+
+❌ Cuando data classes son suficientes
+
+❌ Si necesitas herencia compleja
