@@ -1,21 +1,16 @@
-💡 Ventajas del Patrón Builder
-✅ Encapsulación: Oculta detalles de construcción complejos
+Qué es el Patrón Observer?
+Problema que resuelve:
 
-✅ Flexibilidad: Permite diferentes representaciones
+Necesitas notificar a múltiples objetos sobre cambios en otro objeto
 
-✅ Legibilidad: Código más claro y expresivo
+Quieres mantener un acoplamiento bajo entre el sujeto y los observadores
 
-✅ Inmutabilidad: Puede construir objetos inmutables
+Deseas que los objetos se actualicen automáticamente ante cambios
 
-✅ Validación: Validación centralizada en el build()
+Solución:
 
-🎯 Cuándo Usar el Patrón Builder
-Cuando un objeto tiene muchos parámetros de construcción
+Un Sujeto mantiene una lista de Observadores
 
-Cuando algunos parámetros son opcionales
+Los Observadores se registran en el Sujeto
 
-Cuando necesitas diferentes variaciones de un objeto
-
-Cuando quieres crear objetos inmutables
-
-Cuando la construcción es compleja y requiere validación
+Cuando el Sujeto cambia, notifica a todos los Observadores registrados
