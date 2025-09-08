@@ -1,101 +1,102 @@
 package com.example.demopatter
 import androidx.compose.ui.window.application
+import shared.Beverage
+import shared.Caramel
+import shared.DarkRoast
+import shared.Decaf
+import shared.Espresso
+import shared.Milk
+import shared.Mocha
+import shared.Size
+import shared.Soy
+import shared.Whip
 
-import shared.Computer
-import shared.ComputerDirector
-import shared.GamingComputerBuilder
-import shared.OfficeComputerBuilder
 
 fun main() = application {
-    println("🎯 Demostración del Patrón Builder")
-    println("=".repeat(50))
-
-    // Demo 1: Builder básico con método de encadenamiento
-    demoBasicBuilder()
+    // Demo 1: Bebidas simples
+    demoBeveragesSimples()
 
     println("\n" + "=".repeat(50))
 
-    // Demo 2: Builders especializados
-    demoSpecializedBuilders()
+    // Demo 2: Decoradores básicos
+    demoDecoradoresBasicos()
 
     println("\n" + "=".repeat(50))
 
-    // Demo 3: Usando Director
-    demoWithDirector()
+    // Demo 3: Combinaciones complejas
+    demoCombinacionesComplejas()
 
     println("\n" + "=".repeat(50))
 
-    // Demo 4: Construcción personalizada
-    demoCustomBuild()
+    // Demo 4: Diferentes tamaños
+    demoDiferentesTamanos()
+
 }
 
-fun demoBasicBuilder() {
-    println("🔧 Builder Básico:")
 
-    // Construcción paso a paso con encadenamiento
-    val computer = Computer.builder()
-        .setProcessor("AMD Ryzen 5 5600X")
-        .setRamGB(16)
-        .setStorageGB(1000)
-        .setGraphicsCard("NVIDIA GTX 1660")
-        .setHasSSD(true)
-        .setOperatingSystem("Windows 11")
-        .setPrice(900.0)
-        .build()
+fun demoDiferentesTamanos() {
+    println("📏 Diferentes Tamaños:")
 
-    println(computer.getSpecifications())
+    // Mismo condimento, diferentes tamaños
+    val espressoTall = Espresso().apply { setSize(Size.TALL) }
+    val espressoGrande = Espresso().apply { setSize(Size.GRANDE) }
+    val espressoVenti = Espresso().apply { setSize(Size.VENTI) }
+
+    val mochaTall = Mocha(espressoTall)
+    val mochaGrande = Mocha(espressoGrande)
+    val mochaVenti = Mocha(espressoVenti)
+
+    println("=== Mocha en diferentes tamaños ===")
+    printBeverage(mochaTall)
+    printBeverage(mochaGrande)
+    printBeverage(mochaVenti)
+
+    // Combo complejo con tamaño personalizado
+    val comboPersonalizado = Whip(Mocha(Soy(DarkRoast().apply { setSize(Size.VENTI) })))
+    println("\n=== Combo Personalizado Venti ===")
+    printBeverage(comboPersonalizado)
 }
 
-fun demoSpecializedBuilders() {
-    println("🎮 Builders Especializados:")
+fun demoCombinacionesComplejas() {
+    println("🌈 Combinaciones Complejas:")
 
-    val gamingBuilder = GamingComputerBuilder()
-    val officeBuilder = OfficeComputerBuilder()
+    // Dark Roast con doble mocha y crema
+    val darkRoastDobleMochaCrema = Whip(Mocha(Mocha(DarkRoast())))
+    printBeverage(darkRoastDobleMochaCrema)
 
-    val gamingPC = gamingBuilder.midRangeGamingSetup()
-    val officePC = officeBuilder.standardOfficeSetup()
-    val devPC = officeBuilder.developerSetup()
-
-    println("=== Computadora Gaming ===")
-    println(gamingPC.getSpecifications())
-
-    println("\n=== Computadora Oficina ===")
-    println(officePC.getSpecifications())
-
-    println("\n=== Computadora Desarrollador ===")
-    println(devPC.getSpecifications())
+    // Espresso con todos los condimentos
+    val espressoPremium = Caramel(Whip(Soy(Milk(Mocha(Espresso())))))
+    printBeverage(espressoPremium)
 }
 
-fun demoWithDirector() {
-    println("🎭 Usando Director:")
+fun demoDecoradoresBasicos() {
+    println("🎨 Decoradores Básicos:")
 
-    val director = ComputerDirector()
-    val gamingBuilder = GamingComputerBuilder()
-    val officeBuilder = OfficeComputerBuilder()
+    // Espresso con leche
+    val espressoConLeche = Milk(Espresso())
+    printBeverage(espressoConLeche)
 
-    val highEndGamingPC = director.constructGamingComputer(gamingBuilder)
-    val budgetOfficePC = director.constructBudgetComputer(officeBuilder)
+    // Dark Roast con mocha
+    val darkRoastConMocha = Mocha(DarkRoast())
+    printBeverage(darkRoastConMocha)
 
-    println("=== High-End Gaming (via Director) ===")
-    println(highEndGamingPC.getSpecifications())
+    // Decaf con soja
+    val decafConSoja = Soy(Decaf())
+    printBeverage(decafConSoja)
+}
+fun demoBeveragesSimples() {
+    println("☕ Bebidas Simples:")
 
-    println("\n=== Budget Office (via Director) ===")
-    println(budgetOfficePC.getSpecifications())
+    val espresso = Espresso()
+    val darkRoast = DarkRoast()
+    val decaf = Decaf()
+
+    printBeverage(espresso)
+    printBeverage(darkRoast)
+    printBeverage(decaf)
 }
 
-fun demoCustomBuild() {
-    println("🛠️ Construcción Personalizada:")
 
-    val gamingBuilder = GamingComputerBuilder()
-
-    // Computadora personalizada con parámetros opcionales
-    val customPC = gamingBuilder.customGamingSetup(
-        processor = "Intel i7-13700K",
-        ramGB = 64,
-        storageGB = 4000,
-        graphicsCard = "NVIDIA RTX 4090",
-        price = 3500.0
-    )
-
-    println(customPC.getSpecifications())
+fun printBeverage(beverage: Beverage) {
+    println("${beverage.getDescription()} - $${"%.2f".format(beverage.cost())} (${beverage.getSize()})")
 }

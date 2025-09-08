@@ -1,21 +1,42 @@
-💡 Ventajas del Patrón Builder
-✅ Encapsulación: Oculta detalles de construcción complejos
+💡 Ventajas del Patrón Decorator
+✅ Mayor flexibilidad que la herencia: Puedes combinar comportamientos en tiempo de ejecución
 
-✅ Flexibilidad: Permite diferentes representaciones
+✅ Evita la explosión de clases: No necesitas una clase para cada combinación
 
-✅ Legibilidad: Código más claro y expresivo
+✅ Principio Open/Closed: Puedes añadir nuevos decoradores sin modificar código existente
 
-✅ Inmutabilidad: Puede construir objetos inmutables
+✅ Responsabilidad única: Cada decorador se encarga de una funcionalidad específica
 
-✅ Validación: Validación centralizada en el build()
+🎯 Casos de Uso Comunes
+Sistemas de bebidas (como en nuestro ejemplo)
 
-🎯 Cuándo Usar el Patrón Builder
-Cuando un objeto tiene muchos parámetros de construcción
+Streams de I/O (BufferedInputStream, DataInputStream, etc.)
 
-Cuando algunos parámetros son opcionales
+Decoradores de UI (bordes, scrollbars, etc.)
 
-Cuando necesitas diferentes variaciones de un objeto
+Middleware en aplicaciones web
 
-Cuando quieres crear objetos inmutables
+Sistemas de permisos y roles
 
-Cuando la construcción es compleja y requiere validación
+Ejemplo de Extensión
+Para añadir un nuevo condimento:
+// Nuevo decorador: Canela
+class Cinnamon(beverage: Beverage) : CondimentDecorator(beverage) {
+
+    override fun getDescription(): String {
+        return "${beverage.getDescription()}, Cinnamon"
+    }
+
+    override fun cost(): Double {
+        val sizeCost = when (beverage.getSize()) {
+            Size.TALL -> 0.15
+            Size.GRANDE -> 0.20
+            Size.VENTI -> 0.25
+        }
+        return beverage.cost() + sizeCost
+    }
+}
+
+// Uso:
+val cafeConCanela = Cinnamon(DarkRoast())
+printBeverage(cafeConCanela)
